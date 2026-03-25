@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="UCD RUNNER – Eventos de corrida de rua em Bananeiras. Inscreva-se no próximo evento e corra com a gente!" />
+  <meta property="og:title" content="UCD RUNNER – Corrida de Rua" />
+  <meta property="og:description" content="Eventos de corrida para todos os níveis. Junte-se à nossa comunidade!" />
+  <title>UCD RUNNER – Corrida de Rua</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏃</text></svg>" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css">
+
+  <!--
+  =============================================
+  GUIA DE PERSONALIZAÇÃO
+  =============================================
+  1. Nome da equipe         → [NOME DA EQUIPE]
+  2. Slogan                 → [SLOGAN]
+  3. Cidade                 → [CIDADE – UF]
+  4. WhatsApp               → atualizar wa.me/55[NÚMERO]
+  5. Instagram              → @[PERFIL]
+  6. Próximo evento – nome  → [NOME DO PRÓXIMO EVENTO]
+  7. Próximo evento – data  → atualizar nextEventDate no JS (linha ~700)
+  8. Próximo evento – local → [LOCAL DO EVENTO]
+  9. Percursos              → [5km · 10km · 21km]
+  10. Vagas disponíveis     → [X] vagas
+  11. Valor inscrição       → R$ [VALOR]
+  12. Eventos passados (3)  → [NOME], [DATA], [X] corredores
+  13. Logo                  → substituir .logo-text pelo <img> da logo
+  14. Fotos galeria (6)     → substituir src pelas fotos reais
+  15. Foto próximo evento   → substituir banner placeholder
+  16. Foto da equipe        → substituir hero background
+  17. Depoimentos (3)       → nome + texto reais
+  18. Estatísticas          → [X]+ participantes, [X] edições, [X] anos
+  =============================================
+
+  COMO ATUALIZAR PARA UM NOVO EVENTO:
+  1. Altere nome, data, local e percursos do próximo evento
+  2. Atualize nextEventDate no JavaScript
+  3. Substitua o banner/foto do próximo evento
+  4. Mova evento atual para seção "Últimas Edições" (duplique um card)
+  5. Suba o arquivo no Vercel (arraste o .html)
+  =============================================
+  -->
+</head>
+<body>
+
+  <!-- =============================================
+       NAVBAR
+  ============================================= -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <!-- TODO: substituir .logo-text por <img src="logo.png" alt="[NOME DA EQUIPE]"> -->
+      <div class="logo-text">UCD <span>RUNNER</span></div>
+      <ul class="nav-links">
+        <li><a href="#proximo-evento">Próximo Evento</a></li>
+        <li><a href="#edicoes">Edições</a></li>
+        <li><a href="#galeria">Galeria</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+      <!-- TODO: atualizar link WhatsApp -->
+      <a href="https://wa.me/55[NÚMERO]?text=Olá!%20Quero%20me%20inscrever%20no%20próximo%20evento!" class="btn-nav" target="_blank" rel="noopener">
+        Inscreva-se →
+      </a>
+    </div>
+  </nav>
+
+  <!-- =============================================
+       HERO
+  ============================================= -->
+  <!-- TODO: substituir background do .hero pela foto real da equipe -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-badge reveal">🏃 Próxima corrida em <span id="heroCountDays">--</span> dias</div>
+        <!-- TODO: substituir pelo nome da equipe -->
+        <p class="hero-pretitle reveal reveal-d1">UCD RUNNER · Bananeiras – PB</p>
+        <h1 class="hero-title reveal reveal-d2">
+          Corra com a gente.<br><em>Supere seus limites.</em>
+        </h1>
+        <p class="hero-subtitle reveal reveal-d3">
+          Eventos de corrida de rua para todos os níveis — do primeiro 5km ao desafio da sua vida. Junte-se à nossa comunidade em Bananeiras.
+        </p>
+
+        <!-- Contador regressivo -->
+        <div class="countdown-wrap reveal reveal-d3">
+          <p class="countdown-label">Próximo evento começa em:</p>
+          <div class="countdown">
+            <div class="count-box"><span class="count-num" id="days">00</span><span class="count-unit">dias</span></div>
+            <div class="count-box"><span class="count-num" id="hours">00</span><span class="count-unit">horas</span></div>
+            <div class="count-box"><span class="count-num" id="minutes">00</span><span class="count-unit">min</span></div>
+            <div class="count-box"><span class="count-num" id="seconds">00</span><span class="count-unit">seg</span></div>
+          </div>
+        </div>
+
+        <div class="hero-ctas reveal reveal-d4">
+          <!-- TODO: atualizar link WhatsApp -->
+          <a href="https://wa.me/55[NÚMERO]?text=Olá!%20Quero%20me%20inscrever%20no%20próximo%20evento!" class="btn-primary" target="_blank" rel="noopener">
+            ⚡ Quero me inscrever
+          </a>
+          <a href="#proximo-evento" class="btn-ghost">Ver detalhes do evento ↓</a>
+        </div>
+        <!-- TODO: atualizar endereço e horário -->
+        <p class="hero-meta reveal">📍 Bananeiras, PB &nbsp;·&nbsp; Eventos a cada 2–3 meses</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       FAIXA DE ESTATÍSTICAS
+  ============================================= -->
+  <section class="stats-strip">
+    <div class="container">
+      <div class="stats-grid">
+        <!-- TODO: atualizar números reais -->
+        <div class="stat-item reveal">
+          <span class="stat-num">800+</span>
+          <span class="stat-label">Corredores</span>
+        </div>
+        <div class="stat-item reveal reveal-d1">
+          <span class="stat-num">10</span>
+          <span class="stat-label">Edições realizadas</span>
+        </div>
+        <div class="stat-item reveal reveal-d2">
+          <span class="stat-num">2</span>
+          <span class="stat-label">Anos de história</span>
+        </div>
+        <div class="stat-item reveal reveal-d3">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Comunidade</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       PRÓXIMO EVENTO
+  ============================================= -->
+  <section class="section" id="proximo-evento">
+    <div class="container">
+      <div class="next-event-grid">
+        <div class="next-event-img reveal">
+          <!-- TODO: substituir pela imagem/banner do próximo evento -->
+          <img src="./assets/trail.png" alt="Próximo evento" loading="lazy" />
+          <div class="img-badge">Inscrições abertas</div>
+        </div>
+        <div class="reveal reveal-d2">
+          <div class="section-label">Próximo Evento</div>
+          <!-- TODO: substituir nome do evento -->
+          <h2 class="event-name">2 FURACÃO<br>TRAIL</h2>
+          <ul class="event-details">
+            <!-- TODO: substituir detalhes do evento -->
+            <li><span class="icon">📅</span> <div><strong>Data:</strong> 22 de Março</div></li>
+            <li><span class="icon">📍</span> <div><strong>Local:</strong> Angicos, Bananeiras, Paraíba</div></li>
+            <li>
+              <span class="icon">🏃</span>
+              <div>
+                <strong>Percursos:</strong>
+                <span class="tag">5km</span>
+                <span class="tag">10km</span>
+                <span class="tag">21km</span>
+                <!-- TODO: ajustar percursos disponíveis -->
+              </div>
+            </li>
+            <li><span class="icon">💰</span> <div><strong>Inscrição:</strong> R$ 50,00 · Consulte pelo WhatsApp</div></li>
+          </ul>
+
+          <!-- Barra de vagas -->
+          <div class="vagas-bar-wrap">
+            <div class="vagas-label">
+              <span>Vagas preenchidas</span>
+              <!-- TODO: atualizar percentual e número -->
+              <span style="color: var(--blue);">65% · [X] vagas restantes</span>
+            </div>
+            <div class="vagas-bar"><div class="vagas-fill" style="width: 65%;"></div></div>
+          </div>
+
+          <div class="event-ctas">
+            <!-- TODO: atualizar link WhatsApp -->
+            <a href="https://wa.me/55[NÚMERO]?text=Olá!%20Quero%20garantir%20minha%20vaga%20no%20[NOME%20DO%20EVENTO]!" class="btn-blue" target="_blank" rel="noopener">
+              Garantir minha vaga →
+            </a>
+            <!-- TODO: atualizar link do regulamento -->
+            <a href="#" class="btn-outline" target="_blank" rel="noopener">Ver regulamento</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       ÚLTIMAS EDIÇÕES
+  ============================================= -->
+  <section class="section section-alt" id="edicoes">
+    <div class="container">
+      <div class="section-label reveal">Histórico</div>
+      <h2 class="section-title reveal">Últimas Edições</h2>
+      <p class="section-sub reveal">Cada edição é uma história de superação. Veja o que já construímos juntos.</p>
+
+      <div class="events-grid">
+        <!-- CARD EVENTO 1 — TODO: substituir dados -->
+        <div class="event-card reveal">
+          <div class="event-card-img">
+            <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=600&q=80" alt="Evento passado" loading="lazy" />
+            <span class="card-badge">Realizado ✓</span>
+          </div>
+          <div class="event-card-body">
+            <div class="event-card-name">[NOME DO EVENTO 1]</div>
+            <div class="event-card-meta">📅 [Data] &nbsp;·&nbsp; 📍 [Local]</div>
+            <div class="event-card-runners">[X]<span>corredores participantes</span></div>
+            <!-- TODO: atualizar link Instagram -->
+            <a href="https://instagram.com/[PERFIL]" class="event-card-link" target="_blank">Ver fotos no Instagram →</a>
+          </div>
+        </div>
+
+        <!-- CARD EVENTO 2 — TODO: substituir dados -->
+        <div class="event-card reveal reveal-d1">
+          <div class="event-card-img">
+            <img src="https://images.unsplash.com/photo-1594737625785-a6cbdabd333c?w=600&q=80" alt="Evento passado" loading="lazy" />
+            <span class="card-badge">Realizado ✓</span>
+          </div>
+          <div class="event-card-body">
+            <div class="event-card-name">[NOME DO EVENTO 2]</div>
+            <div class="event-card-meta">📅 [Data] &nbsp;·&nbsp; 📍 [Local]</div>
+            <div class="event-card-runners">[X]<span>corredores participantes</span></div>
+            <a href="https://instagram.com/[PERFIL]" class="event-card-link" target="_blank">Ver fotos no Instagram →</a>
+          </div>
+        </div>
+
+        <!-- CARD EVENTO 3 — TODO: substituir dados -->
+        <div class="event-card reveal reveal-d2">
+          <div class="event-card-img">
+            <img src="https://images.unsplash.com/photo-1461897104016-0b3b00cc81ee?w=600&q=80" alt="Evento passado" loading="lazy" />
+            <span class="card-badge">Realizado ✓</span>
+          </div>
+          <div class="event-card-body">
+            <div class="event-card-name">[NOME DO EVENTO 3]</div>
+            <div class="event-card-meta">📅 [Data] &nbsp;·&nbsp; 📍 [Local]</div>
+            <div class="event-card-runners">[X]<span>corredores participantes</span></div>
+            <a href="https://instagram.com/[PERFIL]" class="event-card-link" target="_blank">Ver fotos no Instagram →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- TODO: atualizar link Instagram -->
+      <p style="text-align:center; margin-top:36px;" class="reveal">
+        <a href="https://instagram.com/[PERFIL]" style="color: var(--blue); font-weight:600; font-size:0.95rem; border-bottom: 1px solid var(--blue);" target="_blank">
+          Acompanhe todas as novidades no Instagram → @[PERFIL]
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <!-- =============================================
+       GALERIA
+  ============================================= -->
+  <!-- TODO: substituir todas as imagens Unsplash pelas fotos reais da equipe -->
+  <section class="gallery-section" id="galeria">
+    <div class="container">
+      <div class="section-label reveal">Nossa Comunidade</div>
+      <h2 class="section-title reveal">Fotos dos nossos eventos</h2>
+      <p class="section-sub reveal">Imagens reais dos nossos corredores. Substitua pelas fotos das suas edições.</p>
+
+      <div class="gallery-grid reveal">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1513593771513-7b58b6c4af38?w=800&q=80" alt="Largada" loading="lazy" />
+          <div class="gallery-overlay">🏃</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=600&q=80" alt="Corrida" loading="lazy" />
+          <div class="gallery-overlay">🏃</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1502904550040-7534597429ae?w=600&q=80" alt="Chegada" loading="lazy" />
+          <div class="gallery-overlay">🏅</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1529516548873-9ce57c8f155e?w=600&q=80" alt="Medalha" loading="lazy" />
+          <div class="gallery-overlay">🥇</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80" alt="Grupo" loading="lazy" />
+          <div class="gallery-overlay">🏃</div>
+        </div>
+      </div>
+
+      <p class="gallery-cta reveal">
+        Mais fotos e vídeos no Instagram →
+        <!-- TODO: atualizar link e @ -->
+        <a href="https://instagram.com/[PERFIL]" target="_blank">@[PERFIL]</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- =============================================
+       SOBRE A EQUIPE
+  ============================================= -->
+  <section class="section section-alt" id="sobre">
+    <div class="container">
+      <div class="about-grid">
+        <div class="reveal">
+          <!-- TODO: substituir pela foto real da equipe -->
+          <div class="about-img">
+            <img src="https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=800&q=80" alt="Nossa equipe" loading="lazy" />
+          </div>
+        </div>
+        <div class="reveal reveal-d2">
+          <div class="section-label">Quem somos</div>
+          <h2 class="section-title">Uma comunidade<br>que corre junta.</h2>
+          <!-- TODO: substituir pelo texto real sobre a equipe -->
+          <p style="font-size:1rem; color:#444; line-height:1.7; margin-bottom:16px;">
+            [SOBRE A EQUIPE — conte aqui a história da equipe, como surgiu, qual é a missão e o que torna vocês diferentes. Seja direto, humano e mostre a personalidade do grupo.]
+          </p>
+          <p style="font-size:1rem; color:#444; line-height:1.7;">
+            Nossos eventos acontecem a cada 2–3 meses, sempre com percursos para todos os níveis — de quem nunca correu 5km até quem busca o desafio da meia maratona.
+          </p>
+
+          <div class="about-pillars">
+            <div class="pillar reveal">
+              <div class="pillar-icon">🏃</div>
+              <div class="pillar-title">Para todos</div>
+            </div>
+            <div class="pillar reveal reveal-d1">
+              <div class="pillar-icon">🤝</div>
+              <div class="pillar-title">Comunidade</div>
+            </div>
+            <div class="pillar reveal reveal-d2">
+              <!-- TODO: atualizar cidade -->
+              <div class="pillar-icon">📍</div>
+              <div class="pillar-title">[Cidade]</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       COMO FUNCIONA
+  ============================================= -->
+  <section class="section">
+    <div class="container">
+      <div class="section-label reveal" style="justify-content:center;">Como participar</div>
+      <h2 class="section-title reveal" style="text-align:center; margin-bottom:52px;">Simples assim:</h2>
+
+      <div class="steps-grid">
+        <div class="step reveal">
+          <div class="step-num">01</div>
+          <div class="step-title">Fique de olho</div>
+          <p class="step-desc">Acompanhe o Instagram <!-- TODO: --> @[PERFIL] — novos eventos são anunciados a cada 2–3 meses com todas as informações.</p>
+        </div>
+        <div class="step reveal reveal-d1">
+          <div class="step-num">02</div>
+          <div class="step-title">Fale pelo WhatsApp</div>
+          <p class="step-desc">Quando as inscrições abrirem, mande uma mensagem pelo WhatsApp e garanta sua vaga antes de esgotar.</p>
+        </div>
+        <div class="step reveal reveal-d2">
+          <div class="step-num">03</div>
+          <div class="step-title">Apareça e corra!</div>
+          <p class="step-desc">No dia do evento, chegue, pegue seu kit, aqueça e dê o melhor de você. A galera corre junto!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       DEPOIMENTOS
+  ============================================= -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-label reveal">Depoimentos</div>
+      <h2 class="section-title reveal">O que os corredores dizem</h2>
+
+      <div class="testimonials-grid" style="margin-top:40px;">
+        <!-- TODO: substituir pelos depoimentos reais -->
+        <div class="testimonial-card reveal">
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <p class="testimonial-text">"Comecei sem nunca ter corrido 5km seguidos. No evento fiz 10km. A organização e o incentivo da galera me fizeram acreditar que era possível."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">A</div>
+            <div>
+              <div class="author-name">[Nome do Participante]</div>
+              <div class="author-meta">[Cidade] · [Percurso] km</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal reveal-d1">
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <p class="testimonial-text">"Cada edição é melhor que a anterior. Percurso bem sinalizado, kit caprichado e uma energia que você não encontra em outros eventos da região."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">R</div>
+            <div>
+              <div class="author-name">[Nome do Participante]</div>
+              <div class="author-meta">[Cidade] · [Percurso] km</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal reveal-d2">
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <p class="testimonial-text">"Já participei de [X] edições e não perco uma. Virou tradição na minha família. Meus filhos pedem pra vir junto a cada evento!"</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">J</div>
+            <div>
+              <div class="author-name">[Nome do Participante]</div>
+              <div class="author-meta">[Cidade] · [Percurso] km</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       CTA FINAL
+  ============================================= -->
+  <section class="cta-final" id="contato">
+    <div class="container">
+      <div class="section-label reveal">Próxima edição</div>
+      <!-- TODO: substituir nome do evento -->
+      <h2 class="cta-title reveal">Sua próxima corrida<br>começa com uma mensagem.</h2>
+      <p class="cta-sub reveal">Inscrições para <strong>[NOME DO PRÓXIMO EVENTO]</strong> estão abertas. Garanta sua vaga antes de esgotar.</p>
+      <div class="cta-vagas reveal">⚡ Vagas limitadas — confirme já!</div>
+      <div class="cta-btns reveal">
+        <!-- TODO: atualizar link WhatsApp -->
+        <a href="https://wa.me/55[NÚMERO]?text=Olá!%20Quero%20garantir%20minha%20vaga%20no%20[NOME%20DO%20EVENTO]!" class="btn-yellow-lg" target="_blank" rel="noopener">
+          Quero me inscrever →
+        </a>
+        <!-- TODO: atualizar link Instagram -->
+        <a href="https://instagram.com/[PERFIL]" class="btn-white-outline" target="_blank" rel="noopener">
+          Seguir no Instagram
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       RODAPÉ
+  ============================================= -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <!-- TODO: substituir pelo nome/logo real -->
+          <div class="logo-text">UCD <span>RUNNER</span></div>
+          <p>Eventos de corrida de rua para todos os níveis em Bananeiras, PB. Junte-se à nossa comunidade e corra com a gente.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Links rápidos</div>
+          <ul class="footer-links">
+            <li><a href="#proximo-evento">Próximo Evento</a></li>
+            <li><a href="#edicoes">Edições</a></li>
+            <li><a href="#galeria">Galeria</a></li>
+            <li><a href="#sobre">Sobre</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Contato</div>
+          <ul class="footer-links">
+            <!-- TODO: atualizar links -->
+            <li><a href="https://wa.me/55[NÚMERO]" target="_blank">WhatsApp</a></li>
+            <li><a href="https://instagram.com/[PERFIL]" target="_blank">@[PERFIL]</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <!-- TODO: atualizar ano e cidade -->
+        <p>© 2026 UCD Runner – Bananeiras, PB · Todos os direitos reservados</p>
+        <p>Feito com 🏃 para a comunidade de corredores</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Flutuante -->
+  <!-- TODO: atualizar link WhatsApp -->
+  <a href="https://wa.me/55[NÚMERO]?text=Olá!%20Quero%20me%20inscrever%20no%20próximo%20evento!" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Inscreva-se pelo WhatsApp">
+    <span class="wa-tooltip">Inscreva-se pelo WhatsApp</span>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <!-- External JS -->
+  <script src="./script.js"></script>
+
+</body>
+</html>
